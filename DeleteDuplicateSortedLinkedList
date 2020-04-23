@@ -31,3 +31,51 @@ class Solution {
         return head;
     }
 }
+
+// remove all duplicates in Linked List
+// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+     
+         ListNode pre = null;
+         ListNode cur = head;
+        
+         while(cur != null){
+              
+             if((cur.next != null) && (cur.val == cur.next.val)){
+                 
+                 if(pre == null){
+                     cur = delete(cur);
+                     head = cur;
+                 }else{
+                     cur = delete(cur);
+                     pre.next = cur; 
+                 }
+                                  
+             }else{
+                 
+                 pre = cur;
+                 cur = cur.next;
+             }
+             
+             
+         }
+        
+        return head;
+    }
+    
+    private ListNode delete(ListNode node){
+        
+        ListNode cur = node;
+        while(cur != null){
+            
+            if((cur.next != null) && (cur.val != cur.next.val))
+                return cur.next;
+            
+            cur = cur.next;
+        } 
+               
+        return null;       
+    }
+}
