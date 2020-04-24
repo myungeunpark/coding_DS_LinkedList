@@ -1,0 +1,25 @@
+
+
+How to find the Kth node from the end in a singly linked list?
+
+int getNthFromLast(Node head, int n)
+    {
+        int count = 0;
+        Node fast =  head;
+        while(fast != null && count < n){
+            fast = fast.next;
+            count++;
+        }
+        
+        if(count < n)
+            return -1;
+        
+        Node slow = head;
+        while(fast != null){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        
+        return slow.data;
+        
+    }
