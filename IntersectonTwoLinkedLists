@@ -1,0 +1,151 @@
+// [1] Using HashSet
+// https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+ 
+// [1] Using HashSet
+// Time : O(M+N),  Space : O(M)
+public class Solution {
+    
+    
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+         ListNode curA = headA;
+         ListNode curB = headB;
+        
+         HashSet<ListNode> map = new HashSet<>();
+        
+        while(curA != null){
+            
+            map.add(curA);
+            curA = curA.next;
+        }
+        
+        while(curB != null){
+            
+            if(map.contains(curB))
+                return curB;
+            
+            curB = curB.next;
+        }
+        
+        return null;
+    
+    }
+}
+
+//-------------------------------------------------------------------
+// [2] Using Length difference 
+// Time : O(M+N), Space O(1) 
+public class Solution {
+    
+    
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        if(headA == null || headB == null)
+            return null;
+        
+        ListNode curA = headA;
+        ListNode curB = headB;
+        boolean isRotateA = false;
+        boolean isRotateB = false;
+        while(curA != curB){
+                        
+            if(curA.next == null){
+                
+                if(!isRotateA){
+                    curA = headB;
+                    isRotateA = true;
+                }else{
+                    
+                    return null;
+                }               
+            }                
+            else
+                curA = curA.next;
+            
+            if(curB.next == null){
+                
+                if(!isRotateB){
+                    curB = headA;
+                    isRotateB = true;
+                }else{
+                    
+                    return null;
+                }
+            }                
+            else
+                curB = curB.next;
+        }
+        
+        return curA; 
+    
+    }
+}
+
+// ------------------------------------------------------------------
+// [3] Using Length difference
+// Time : O(M+N), Space O(1)
+public class Solution {
+    
+   private int getLen(ListNode node){
+      
+       if(node == null)
+           return 0;
+       
+       int count = 0;
+       ListNode cur = node;
+       while(cur != null){
+           count++;
+           cur = cur.next;
+       }       
+       return count;
+   }
+    
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+     
+        int len1 = getLen(headA);
+        int len2 = getLen(headB);
+        
+        ListNode nodeA = headA;
+        ListNode nodeB = headB;
+        if(len1 > len2){
+            
+            ListNode cur = headA;
+            int len = len1-len2;
+            for(int i=0; i<len; i++){
+                cur = cur.next;
+            }
+            nodeA = cur;
+        }else if(len1 < len2 ){
+            
+            ListNode cur = headB;
+            int len = len2-len1;
+            for(int i=0; i<len; i++){
+                cur = cur.next;
+            }
+            nodeB = cur;
+        }
+        
+        while(nodeA != null && nodeB != null){
+            
+            if(nodeA == nodeB)
+                return nodeA;
+            
+            nodeA = nodeA.next;
+            nodeB = nodeB.next;
+        }
+        
+        return null;
+    }
+}
