@@ -1,0 +1,51 @@
+
+
+public class BinarySearchTreeToDoubleLinkedList {
+
+	class Node  
+	{ 
+	    int data; 
+	    Node left, right; 
+	   
+	    public Node(int data)  
+	    { 
+	        this.data = data; 
+	        left = right = null; 
+	    } 
+	} 
+	
+	private Node header;
+	private Node prev;
+	public void bstToDll(Node bst) {
+		
+		header = null;
+		prev = null;
+				
+		inOrder(bst);
+	}
+	
+	private void inOrder(Node node) {
+		
+		if(node == null)
+			return;
+		
+		inOrder(node.left);
+		
+		if(header == null) {
+			
+			header =  new Node(node.data);
+			header.left = prev;
+			
+			prev = header;
+		}else {
+			 
+			Node newNode = new Node(node.data);
+			prev.right = newNode;
+			newNode.left = prev;
+			
+			prev = newNode;
+		}
+		
+		inOrder(node.right);
+	}
+}
