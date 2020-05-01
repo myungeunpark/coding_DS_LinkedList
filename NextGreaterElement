@@ -1,0 +1,79 @@
+// Get the next larger element 
+
+// https://practice.geeksforgeeks.org/problems/next-larger-element/0
+// time : O(N)
+public int [] getNextLargerElement(int [] nums) 
+	{
+		if(nums.length <= 0)
+			return null;
+		
+		int [] ret = new int[nums.length];
+		Arrays.fill(ret, -1);
+		
+		Stack<Integer> stack = new Stack<>();
+		stack.push(0);
+		
+		for(int i=1; i<nums.length; i++) {
+			
+			while(!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+				
+				ret[stack.pop()] = nums[i];				
+			}
+			stack.push(i);			
+		}
+				
+		return ret;
+	}
+  
+//https://leetcode.com/problems/next-greater-element-ii/
+ class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        
+        int [] ret = new int[nums.length];
+        Arrays.fill(ret, -1);
+        
+        for(int i=0; i<nums.length; i++){
+        
+            int inx = i+1;
+            while(inx%nums.length != i){
+             
+                if(nums[i] < nums[inx%nums.length]){
+                    ret[i] = nums[inx%nums.length];
+                    break;
+                }                 
+                
+                inx++;
+            }
+        }
+        return ret;
+    }
+}
+
+// https://leetcode.com/problems/next-greater-element-i/
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        
+        HashMap <Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i<nums2.length; i++)            
+            map.put(nums2[i], i);
+        
+        int [] ret = new int[nums1.length];
+        Arrays.fill(ret, -1);
+        for(int j=0; j<nums1.length; j++){
+            
+            int inx = map.get(nums1[j])+1;
+            while(inx < nums2.length){
+                if(nums1[j] < nums2[inx]){
+                    ret[j] = nums2[inx];
+                    break;
+                }
+                    
+                inx++;
+            }
+        }
+        
+        return ret;      
+        
+    }
+}
