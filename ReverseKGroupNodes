@@ -16,50 +16,74 @@
  * }
  */
 class Solution {
+   
+    class Node{
+        
+        ListNode reverse;
+        ListNode nextPos;
+    }
     
     private boolean checkLen(ListNode head, int k){
         
-        ListNode cur = head;
         int count = 0;
-        
-        while(cur != null && count < k){
-            cur = cur.next;
+        ListNode cur = head;
+        while((cur != null) && (count < k)){
             count++;
+            cur = cur.next;
         }
         
-        if(count == k)
+        if(count < k)
+            return false;
+        else
             return true;
-         else
-            return false; 
+    }
+    private Node reverseK(ListNode head, int k){
+        
+        ListNode prev = null;
+        ListNode cur = head;
+        ListNode next = null;
+        int count = 0; 
+        
+        Node ret = new Node();
+        
+        if(!checkLen(head, k)){
+         
+            ret.reverse = head;
+            ret.nextPos = null;
+            return ret;
+        }             
+            
+        while(cur != null && count < k){
+            
+            next = cur.next;
+            cur.next = prev;
+            
+            prev = cur;
+            cur = next;            
+            count++;
+        }
+                       
+        ret.reverse = prev;
+        ret.nextPos = cur;
+        return ret;
     }
     
     public ListNode reverseKGroup(ListNode head, int k) {
         
-        if(head == null)
-            return null;
-        
-        if(!checkLen(head, k))
-            return head;
-        
-        ListNode pre = null;
-        ListNode cur = head;
-        ListNode next = null;        
-    
-        
-        int count = 0;
-        while(cur!= null && count < k){
+        ListNode header = new ListNode(0);
+        ListNode prev = header;
+        ListNode nextPairs = head;
+        while(nextPairs != null){
             
-            next = cur.next;
-            cur.next = pre;
+            Node node = reverseK(nextPairs, k);
             
-            pre = cur;            
-            cur = next;    
-            count++;    
+            prev.next = node.reverse;
+            prev = nextPairs;
+            
+            nextPairs = node.nextPos;
         }
         
-        if(count ==  k)   
-           head.next = reverseKGroup(next, k);
+        return header.next;
         
-        return pre;    
     }
 }
