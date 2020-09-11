@@ -8,6 +8,9 @@
  *     ListNode(int x) { val = x; }
  * }
  */
+ 
+// Time Complexity - O(N) 
+// Space Complexity - O(1)
 class Solution {
     public ListNode reverseList(ListNode head) {
    
@@ -29,28 +32,21 @@ class Solution {
 }
 
 // Method 2 by using recursive
+// Time Complexity - O(N)
+// Space Complexity - O(N)
 class Solution {
     
-    private ListNode first = null;
     public ListNode reverseList(ListNode head) {
-   
+        
         if(head == null)
             return null;
         
-        return reverse(head, null);
-    }
-    
-    private ListNode reverse(ListNode cur, ListNode prev){
+        if(head.next == null)
+            return head;
         
-        if(cur == null){
-            return prev; 
-        }
-                    
-        ListNode next = cur.next;
-        cur.next = prev;
-                
-        return reverse(next, cur);
-    }
-    
-    
+        ListNode ret = reverseList(head.next);
+        head.next.next = head;
+        head.next = null; // remove cycle 
+        return ret;
+    }  
 }
