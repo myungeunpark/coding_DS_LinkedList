@@ -1,4 +1,9 @@
-class Solution {
+// Valid Parenthese Problem 
+// https://leetcode.com/problems/valid-parentheses/submissions/
+// Time Complexity - O(N)
+// Space Complexity - O(N)
+
+lass Solution {
     public boolean isValid(String s) {
     
         if(s == null)
