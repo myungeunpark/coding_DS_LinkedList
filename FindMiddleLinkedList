@@ -1,6 +1,7 @@
 // Find Middle node of LinkedList
 // https://leetcode.com/problems/middle-of-the-linked-list/
-// Time : O(N)
+// Time Complexity : O(N)
+// Space Complexity : O(1)
 
 /**
  * Definition for singly-linked list.
