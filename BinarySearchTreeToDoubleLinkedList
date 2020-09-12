@@ -1,51 +1,59 @@
+// https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/submissions/
+//  Convert Binary Search Tree to Sorted Doubly Linked List
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
 
+    public Node() {}
 
-public class BinarySearchTreeToDoubleLinkedList {
+    public Node(int _val) {
+        val = _val;
+    }
 
-	class Node  
-	{ 
-	    int data; 
-	    Node left, right; 
-	   
-	    public Node(int data)  
-	    { 
-	        this.data = data; 
-	        left = right = null; 
-	    } 
-	} 
-	
-	private Node header;
-	private Node prev;
-	public void bstToDll(Node bst) {
-		
-		header = null;
-		prev = null;
-				
-		inOrder(bst);
-	}
-	
-	private void inOrder(Node node) {
-		
-		if(node == null)
-			return;
-		
-		inOrder(node.left);
-		
-		if(header == null) {
-			
-			header =  new Node(node.data);
-			header.left = prev;
-			
-			prev = header;
-		}else {
-			 
-			Node newNode = new Node(node.data);
-			prev.right = newNode;
-			newNode.left = prev;
-			
-			prev = newNode;
-		}
-		
-		inOrder(node.right);
-	}
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+
+class Solution {
+    
+    Node header;
+    Node prev;
+    public Node treeToDoublyList(Node root) {
+        
+        if(root == null)
+            return null;
+        
+        header = new Node();
+        prev = header;
+        
+        inOrder(root);
+        
+        
+        prev.right = header.right;
+        header.right.left = prev;
+        return header.right;
+    }
+    
+    private void inOrder(Node root){
+        
+        if(root == null)
+            return;
+        
+        inOrder(root.left);    
+        Node node = new Node(root.val);
+        prev.right = node;
+        node.left = prev;
+        
+        prev = node;
+        
+        inOrder(root.right);
+        
+    }
 }
