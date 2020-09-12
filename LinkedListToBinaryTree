@@ -1,3 +1,8 @@
+///https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+// https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+// [1] Method 1 :  Convert ListNode to Array --> build the BinarySearchTree
+// [2] Method 2 :  Recursively find the middle node in ListNode --> build BinarySearchTree 
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -21,30 +26,27 @@ class Solution {
         if(head == null)
             return null;
         
-        // get middle
-        ListNode slow = head;
         ListNode fast = head;
-        ListNode prev = null;
+        ListNode slow = head;
+        ListNode prev = head;
         
-        while(fast != null && fast.next != null){
+        while((slow != null) && (fast != null) && (fast.next != null)){
             
             fast = fast.next.next;
             prev = slow;
-            slow = slow.next;            
+            slow = slow.next;
+           
         }
         
-        // middle node
-        TreeNode node = new TreeNode(slow.val);
+        // make root node with middle
+        TreeNode mid = new TreeNode(slow.val);
+        prev.next = null;
+        if(slow != prev){
         
-        if(slow != head){
-        
-            prev.next = null;
-            node.left = sortedListToBST(head);
+            mid.left = sortedListToBST(head);
+            mid.right = sortedListToBST(slow.next);
         }
-                
-        node.right = sortedListToBST(slow.next);
-        
-        return node;
-        
+            
+        return mid;    
     }
 }
