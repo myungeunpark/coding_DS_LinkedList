@@ -8,74 +8,84 @@
  *     ListNode(int x) { val = x; }
  * }
  */
+ // Method 1. Using HashMap
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         
-        if(head == null)
-            return head;
-        
-        ListNode pre = head;
-        ListNode cur = head.next;
-        
+        HashMap<Integer, Integer> map = new HashMap<>();
+        ListNode cur = head;
         while(cur != null){
             
-            if(cur.val == pre.val){                
-                pre.next = cur.next;            
-            }else{
-                pre = cur;                
-            }
+            if(!map.containsKey(cur.val))
+                map.put(cur.val, 1);
+            else
+                map.put(cur.val, map.get(cur.val) + 1);
             
             cur = cur.next;
         }
         
-        return head;
-    }
-}
-
-// remove all duplicates in Linked List
-// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
-
-class Solution {
-    public ListNode deleteDuplicates(ListNode head) {
-     
-         ListNode pre = null;
-         ListNode cur = head;
-        
-         while(cur != null){
-              
-             if((cur.next != null) && (cur.val == cur.next.val)){
-                 
-                 if(pre == null){
-                     cur = delete(cur);
-                     head = cur;
-                 }else{
-                     cur = delete(cur);
-                     pre.next = cur; 
-                 }
-                                  
-             }else{
-                 
-                 pre = cur;
-                 cur = cur.next;
-             }
-             
-             
-         }
-        
-        return head;
-    }
-    
-    private ListNode delete(ListNode node){
-        
-        ListNode cur = node;
+        ListNode header = new ListNode();
+        ListNode prev = header;
+        header.next = head;
+        cur = head;
         while(cur != null){
             
-            if((cur.next != null) && (cur.val != cur.next.val))
-                return cur.next;
+            if(map.get(cur.val) > 1){
+                
+                prev.next = cur.next;
+                
+            }else{
+                prev = cur;
+                
+            }
             
             cur = cur.next;
-        } 
-               
-        return null;       
+        }
+       
+        return header.next;
     }
+    
+    
+}
+
+// [2] Using Two Point
+class Solution {
+    
+    public ListNode deleteDuplicates(ListNode head) {
+    
+        if(head == null)
+            return null;
+        
+        ListNode header = new ListNode();
+        header.next = head;
+        
+        ListNode prev = header;
+        ListNode cur = head;
+        ListNode next = cur.next;
+        
+        while(cur != null & next != null){
+            
+            if(cur.val == next.val){
+             
+                while((next != null) && (cur.val == next.val))
+                    next = next.next;
+                                
+                prev.next = next;
+                cur = next;
+                
+                if(next != null)
+                    next = next.next;                
+            }                
+            else{
+                
+                prev = cur;
+                cur = cur.next;
+                next = next.next;
+            }            
+        }
+ 
+        return header.next;
+    }
+    
+    
 }
