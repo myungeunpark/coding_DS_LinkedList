@@ -1,7 +1,8 @@
 
 
-How to find the Kth node from the end in a singly linked list?
-
+//How to find the Kth node from the end in a singly linked list?
+// Time Complexity - O(N)
+// Space Complexity - O(1)
 int getNthFromLast(Node head, int n)
     {
         int count = 0;
